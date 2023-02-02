@@ -1,13 +1,3 @@
-// // Function to retrieve the cart from local storage
-// function getCart() {
-//   return JSON.parse(localStorage.getItem('cart')) || [];
-// }
-
-// // Function to save the cart to local storage
-// function saveCart(cart) {
-//   localStorage.setItem('cart', JSON.stringify(cart));
-// }
-
 let products = [];
       let productId = 1;
 
