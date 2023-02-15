@@ -1,0 +1,10 @@
+.container-imagen {
+    max-width: 100%;
+    height: auto;
+  }
+  .container-talles {
+    display: flex;
+    padding: 1rem 3rem;
+    justify-content: space-between;
+    flex-direction: row;
+  }

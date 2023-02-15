@@ -1,50 +1,61 @@
-let products = [];
-      let productId = 1;
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let shopContent = document.querySelector('#shopContent');
 
-      function addProduct() {
-        let productDescription = document.getElementById("productDescription").value;
-        let productPrice = document.getElementById("productPrice").value;
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 
-        let existingProduct = products.find(product => product.description === productDescription);
-        if (existingProduct) {
-          existingProduct.quantity++;
-        } else {
-          let product = {
-            id: productId,
-            description: productDescription,
-            price: productPrice,
-            quantity: 1
-          };
+const getProducts = async () => {
+    const response = await fetch("productos.json");
+    const data = await response.json();
+    for (const product of data) {
+        let prodContainer = document.createElement('div');
+        prodContainer.className = 'product--container';
+        prodContainer.innerHTML = "";
+        shopContent.append(prodContainer);
 
-          products.push(product);
-          productId++;
-        }
+        let prodImg = document.createElement('div');
+        prodImg.className = 'product--img';
+        prodImg.innerHTML = `
+        <a href="#"><img src="${product.img}"></a>
+        `;
+        prodContainer.append(prodImg);
+        let prodDescriptionBox = document.createElement('div');
+        prodDescriptionBox.className = 'product--description-box';
+        prodDescriptionBox.innerHTML = `
+        <a href="#" class="product--title">${product.description}</a>
+        <p class="product--price">${product.price}</p>
+        <p class="product--installments">3 cuotas <strong>sin interés</strong> de<strong>${product.price / 3}</strong></p>
+        `;
+        prodContainer.append(prodDescriptionBox);
 
-        updateProducts();
-        updateCart();
-      }
+        let comprar = document.createElement("button");
+        comprar.innerText = "comprar";
+        comprar.className = "comprar";
 
-      function updateProducts() {
-        let productsDiv = document.getElementById("products");
-        productsDiv.innerHTML = "";
+        prodContainer.append(comprar);
 
-        for (let i = 0; i < products.length; i++) {
-          let product = products[i];
-          productsDiv.innerHTML += product.description + " - $" + product.price + "<br>";
-        }
-      }
+        comprar.addEventListener("click", () => {
+            const repeat = cart.some((repeatProduct) => repeatProduct.id === product.id);
 
-      function updateCart() {
-        let cartDiv = document.getElementById("cart");
-        cartDiv.innerHTML = "";
+            if (repeat) {
+                carrito.map((prod) => {
+                    if (prod.id === product.id) {
+                        prod.quantity++;
+                    }
+                });
+            } else {
+                cart.push({
+                    id: product.id,
+                    img: product.img,
+                    nombre: product.description,
+                    precio: product.price,
+                    cantidad: product.quantity,
+                });
+                saveCart();
+            }
+        });
+    }
+};
 
-        let total = 0;
-        for (let i = 0; i < products.length; i++) {
-          let product = products[i];
-          cartDiv.innerHTML +=
-           "(" + product.id + ")" + product.description + " - $" + product.price + " x " + product.quantity + "<br>";
-          total += product.price * product.quantity;
-        }
-
-        cartDiv.innerHTML += "Total: $" + total;
-      }
+getProducts();

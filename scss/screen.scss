@@ -1,0 +1,32 @@
+@mixin media($size) {
+    @if $size == mobile {
+        @media screen and (max-width: $mobile) {@content;}
+    }
+    @else {
+        @media screen and (min-width: $mobile) {@content;}
+    }
+}
+
+@include media(mobile) {
+    .nav-mobile {
+        display: block;
+    }
+
+    .nav-desktop {
+        display: none;
+    }
+
+    main {
+        margin-top: 4rem;
+    }
+
+    .m-footer {
+        margin: 1rem 0;
+    }
+}
+
+@include media(desktop) {
+    .nav-mobile {
+        display: none;
+    }
+}

@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "description": "TINI - ENTERA ESTAMPADO",
+        "price": 4900,
+        "img": "./media/productos/TINI-ENTERA-ESTAMPADO.webp",
+        "quantity": 1
+    },
+    {
+        "id": 2,
+        "description": "KYLIE - BIKINI TIRO MEDIO AMARILLO",
+        "price": 4200,
+        "img": "./media/productos/KYLIE-BIKINI-TIRO-MEDIO.webp",
+        "quantity": 1
+    },
+    {
+        "id": 3,
+        "description": "MILO - BIKINI ZEBRA",
+        "price": 4100,
+        "img": "./media/productos/MILO-BIKINI-ZEBRA.webp",
+        "quantity": 1
+    },
+    {
+        "id": 4,
+        "description": "KELLY - TOP ROSA",
+        "price": 2100,
+        "img": "./media/productos/KELLY-TOP-ROSA.webp",
+        "quantity": 1
+    },
+    {
+        "id": 5,
+        "description": "MILO - BIKINI GIRASOLES",
+        "price": 4100,
+        "img": "./media/productos/MILO-BIKINI-GIRASOLES.webp",
+        "quantity": 1
+    },
+    {
+        "id": 6,
+        "description": "LULU - BIKINI ESTAMPADO",
+        "price": 4800,
+        "img": "./media/productos/LULU-BIKINI-ESTAMPADO.webp",
+        "quantity": 1
+    }
+]

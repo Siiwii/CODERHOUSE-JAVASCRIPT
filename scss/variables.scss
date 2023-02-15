@@ -1,0 +1,17 @@
+@mixin flex($justify) {
+    display: flex;
+    justify-content: $justify;
+    align-items: center;    
+}
+
+$mobile: 767px;
+
+@mixin Raleway($weight) {
+    font-family: "Raleway", sans-serif;
+    font-weight: $weight;
+}
+
+@mixin Poppins($weight) {
+    font-family: "Poppins", sans-serif;
+    font-weight: $weight;    
+}

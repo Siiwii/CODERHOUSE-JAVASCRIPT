@@ -1,0 +1,74 @@
+footer {
+    background: rgba(10,10,10,0.1);
+    margin-top: 3rem;
+    padding-top: 20px;
+    color: #D5BA98;
+    @include Poppins(400);
+
+    a,
+    a:hover {
+        color: #D5BA98;
+        display: inline;
+    }
+}
+
+.footer-links a {
+    font-size: 1rem;
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 1rem 0;
+
+    a {
+        margin-right: 0.8rem;
+        background-color: #D5BA98;
+        padding: 10px;
+        border-radius: 50%;
+        
+        &:hover {
+            background-color: #000;
+        }
+
+        img {
+            width: 1.5rem;
+            height: 1.5rem;
+            position: relative;
+            display: block;
+        }
+    }
+    
+}
+
+.footer1 {
+    width: 33.33%;
+
+    ul {
+        margin-top: 1rem;
+    }
+}
+
+.footer-menu-item {
+    margin-bottom: 20px;
+}
+
+.divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+    border-bottom: 1px solid rgba(10,10,10,0.1);
+}
+
+.footer-payments img {
+    width: auto;
+    max-height: 25px;
+    margin: 2px;
+}
+
+.footer-legal {
+    padding: 20px 0;
+    font-size: 12px;
+    background-color: #D5BA98;
+    color: #fff;
+}
