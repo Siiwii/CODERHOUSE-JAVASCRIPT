@@ -1,79 +1,184 @@
 const btnCart = document.getElementById('btnCart');
 const cartContainer = document.getElementById('cartContainer');
+const cartContent = document.createElement('div');
 
 function updateCart() {
-    cartContainer.className = 'cart-container';
-    cartContainer.innerHTML = "";
-    cartContainer.style.display = 'flex';
-    const cartHeader = document.createElement('div');
-    cartHeader.className = 'cart-header';
-    cartHeader.innerHTML = `<h3 class= "cart-header-title">Carrito de Compras </h3>`;
-    cartContainer.append(cartHeader);
+    let cartHeader = cartContainer.querySelector('.cart-header');
+    if (!cartHeader) {
+        cartHeader = document.createElement('div');
+        cartHeader.className = 'cart-header';
+        cartHeader.innerHTML = `<h3 class="cart-header-title">Carrito de Compras</h3>`;
+        cartContainer.append(cartHeader);
 
-    const btnCloseCart = document.createElement('span');
-    btnCloseCart.className = 'close-cart';
-    btnCloseCart.innerText = 'x';
-    btnCloseCart.addEventListener('click', () => {
-        cartContainer.style.display = 'none';
-    })
+        const btnCloseCart = document.createElement('span');
+        btnCloseCart.className = 'close-cart';
+        btnCloseCart.innerHTML = '<i class="bi bi-x-circle"></i>';
 
-    cartHeader.append(btnCloseCart);
+        btnCloseCart.addEventListener('click', () => {
+            cartContainer.style.display = 'none';
+        });
+
+        cartHeader.append(btnCloseCart);
+    }
+
+    let cartContent = cartContainer.querySelector('.cart-content');
+    if (!cartContent) {
+        cartContent = document.createElement('div');
+        cartContent.className = 'cart-content container';
+        cartContainer.append(cartContent);
+    }
+
+    cartContent.innerHTML = '';
 
     cart.forEach((product) => {
-        let cartContent = document.createElement('div');
-        cartContent.className = 'cart-content';
-        cartContent.innerHTML = `
-        <img src="${product.img}"
-        <span>${product.description}</span>
-        <p>$${product.price}</p>
-        <span class="substract"> - </span>
-        <p>${product.quantity}</p>
-        <span class="add"> + </span>
-        <p>Subtotal: $${product.quantity * product.price}</p>
-        <span class="delete-product"> X </span>
-        `;
+        let cartItem = document.createElement('div');
+        cartItem.className = 'row cart-item';
 
-        cartContainer.append(cartContent);
+        cartItem.innerHTML = `
+        <div class="col-2 p-0"><img src="${product.img}" alt="${product.description}" class="cart-item-img"></div>
+        <div class="col-10 d-flex align-items-center">
+            <div class="w-100">
+                <h6 class="cart-item-name">${product.description}</h6>
+                <div class="cart-item-quantity">
+                    <div class="row m-0 align-items-center">
+                        <div class="col p-0 text-center"><span class="substractP">-</span></div>
+                        <div class="col p-0 text-center">
+                            <p class="m-0">${product.quantity}</p>
+                        </div>
+                        <div class="col p-0 text-center"><span class="addP">+</span></div>
+                    </div>
+                </div>
+                <h5 class="cart-item-subtotal">$${product.price * product.quantity}</h5>
+            </div>
+        </div>
+        <div class="cart-item-delete col-1 text-right">
+            <button class="delP"><i class="bi bi-trash"></i></button>
+        </div>
+      `;
+        cartContent.append(cartItem);
 
-        let substractP = cartContent.getElementsByClassName('substractP');
+        let substractP = cartItem.querySelector('.substractP');
         substractP.addEventListener('click', () => {
-            if (product.quantity !== 1) {
-                product.quantity--;
-            }
-            saveCart();
-            updateCart();
+            substractProduct(product);
         });
 
-        let addP = cartContent.getElementsByClassName('addP');
+        let addP = cartItem.querySelector('.addP');
         addP.addEventListener('click', () => {
-            product.quantity++;
-            saveCart();
-            updateCart();
+            addProduct(product);
         });
 
-        let deleteP = cartContent.getElementsByClassName('delP');
+        let deleteP = cartItem.querySelector('.delP');
         deleteP.addEventListener('click', () => {
-            delProduct(product.id);
+            delProduct(product);
         });
 
-        const total = cart.reduce((acc, prod) => acc + prod.price, 0);
+        const total = cart.reduce((acc, prod) => acc + prod.price * prod.quantity, 0);
 
-        const cartFooter = document.createElement('div');
-        cartFooter.className = 'cart-footer';
-        cartFooter.innerHTML = `<p>Total $${product.price}</p>`;
+        let cartFooter = cartContainer.querySelector('.cart-footer');
+
+        if (!cartFooter) {
+            cartFooter = document.createElement('div');
+            cartFooter.className = 'cart-footer container';
+            cartFooter.innerHTML = `
+                <div class="row font-weight-bold cart-total">
+                    <span class="col">Total:</span>
+                    <span class="col text-end" id="totalBuy"></span>
+                </div>
+                <div class="text-end font-weight-bold"><span class="cart-total" id="totalBuyInstallments"></span></div>
+            `
+        }
+
+
+
+        cartFooter.querySelector('#totalBuy').textContent = `$${total}`;
+
+        cartFooter.querySelector('#totalBuyInstallments').textContent = `O hasta 3 cuotas sin interés de $${Math.round(total / 3)}`;
+
         cartContainer.append(cartFooter);
-    })
+    });
 }
 
-btnCart.addEventListener('click', updateCart);
 
-function delProduct(id) {
-    const foundId = cart.find((element) => element.id === id);
+btnCart.addEventListener('click', () => {
+    cartContainer.style.display = 'flex';
+    updateCart();
+});
 
-    cart = cart.filter((cartId) => {
-        return cartId !== foundId;
+let buyTotal = document.createElement('button');
+buyTotal.innerText = 'INICIAR COMPRA'
+buyTotal.id = "buyTotal";
+cartFooter.append(buyTotal);
+buyTotal.addEventListener('click', buyCart);
+
+const addStyle = {
+    background: "green",
+    color: "white",
+};
+
+const substractStyle = {
+    background: "orange",
+    color: "white",
+};
+
+const deleteStyle = {
+    background: "red",
+    color: "white",
+};
+
+const buyTotalStyle = {
+    background: "green",
+    color: "white",
+};
+
+
+
+function delProduct(product) {
+    cart = cart.filter((cartProduct) => {
+        return cartProduct.id !== product.id;
     });
-
     saveCart();
     updateCart();
+    showToast(`¡Borraste correctamente ${product.description} del carrito!`, deleteStyle);
 }
+
+function addProduct(product) {
+    product.quantity++;
+    saveCart();
+    updateCart();
+    showToast(`¡Agregaste 1 ${product.description} al carrito!`, addStyle);
+}
+
+function substractProduct(product) {
+    if (product.quantity > 1) {
+        product.quantity--;
+        saveCart();
+        updateCart();
+        showToast(`¡Quitaste correctamente 1 ${product.description} del carrito!`, substractStyle);
+    }
+}
+
+function showToast(message, style) {
+    Toastify({
+        text: message,
+        duration: 1000,
+        close: false,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: style,
+        offset: {
+            x: '1rem',
+            y: '2rem'
+        },
+    }).showToast();
+}
+
+function buyCart() {
+    showToast(`¡Gracias por tu compra!`, buyTotalStyle);
+  
+    setTimeout(() => {
+      cart = [];
+      saveCart();
+      location.reload();
+    }, 3000);
+  }

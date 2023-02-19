@@ -1,0 +1,130 @@
+.cart-container {
+    display: none;
+    flex-direction: column;
+    overflow: auto;
+    position: fixed;
+    width: 35%;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    background: #FFFFFF;
+    transition: all 500ms ease;
+}
+
+.cart-header {
+    display: flex;
+    padding: 1em;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D5BA98;
+    color: #ffffff;
+}
+
+.cart-header-title {
+    margin: 0;
+}
+
+.close-cart {
+    cursor: pointer;
+    font-size: 1rem;
+
+    i:hover {
+        color: #FFFFFF;
+    }
+}
+
+.cart-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item {
+    position: relative;
+    margin: 1rem 0;
+}
+
+.cart-item-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cart-item-quantity {
+    float: left;
+    width: 120px;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid rgba(10, 10, 10, 0.3);
+    background-color: #fff;
+}
+
+.addP,
+.substractP {
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 200;
+
+    &:hover {
+        border: 2px solid #D5BA98;
+        border-radius: 10px;
+    }
+}
+
+.cart-item-name {
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 0 40px 10px 0;
+    font-weight: normal;
+}
+
+.cart-item-subtotal {
+    float: right;
+    margin: 10px 0;
+    text-align: right;
+}
+
+.cart-item-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    i:hover {
+        color: #D5BA98;
+    }
+}
+
+.cart-footer {
+    border-top: 1px solid rgba(10, 10, 10, 0.3);
+    padding: 1rem;
+}
+
+#buyTotal {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    border: none;
+    color: #FFFFFF;
+    font-family: Arial;
+    font-size: 12px;
+    padding: 1em;
+    background-color: #D5BA98;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+        background: #FFFFFF;
+        color: #D5BA98;
+        border: solid #D5BA98 1px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        text-decoration: none;
+    }
+}
