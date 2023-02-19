@@ -1,5 +1,6 @@
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let shopContent = document.querySelector('#shopContent');
+const btnNewsletter = document.getElementById('btnNewsletter');
 
 function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -73,11 +74,27 @@ function rowConstructor(data) {
             showToast(`¡Agregaste correctamente ${product.description} al carrito!`, addStyle);
             updateCart();
         });
-});
+    });
     shopContent.append(firstRow);
     shopContent.append(secondRow);
 }
 
-
 getProducts();
 
+function saveSubscriptionStatus() {
+    localStorage.setItem('isSubscribed', 'true');
+}
+
+function isAlreadySubscribed() {
+    return localStorage.getItem('isSubscribed') === 'true';
+}
+
+btnNewsletter.addEventListener('click', () => {
+    if (isAlreadySubscribed()) {
+        showToast(`¡Ya estabas suscrito a la Newsletter!`, deleteStyle);
+    }
+    else {
+        saveSubscriptionStatus();
+        showToast(`¡Ahora estás suscrito a la Newsletter!`, buyTotalStyle);
+    }
+})

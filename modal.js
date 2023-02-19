@@ -1,6 +1,8 @@
 const btnCart = document.getElementById('btnCart');
-const cartContainer = document.getElementById('cartContainer');
+const cartContainer = document.querySelector('.cart-container');
 const cartContent = document.createElement('div');
+const buyCartContainer = document.createElement('div');
+const btnBuyTotal = document.createElement('button');
 
 function updateCart() {
     let cartHeader = cartContainer.querySelector('.cart-header');
@@ -15,7 +17,7 @@ function updateCart() {
         btnCloseCart.innerHTML = '<i class="bi bi-x-circle"></i>';
 
         btnCloseCart.addEventListener('click', () => {
-            cartContainer.style.display = 'none';
+            cartContainer.classList.remove('cart-container--active');
         });
 
         cartHeader.append(btnCloseCart);
@@ -75,7 +77,6 @@ function updateCart() {
         const total = cart.reduce((acc, prod) => acc + prod.price * prod.quantity, 0);
 
         let cartFooter = cartContainer.querySelector('.cart-footer');
-
         if (!cartFooter) {
             cartFooter = document.createElement('div');
             cartFooter.className = 'cart-footer container';
@@ -88,27 +89,29 @@ function updateCart() {
             `
         }
 
-
-
         cartFooter.querySelector('#totalBuy').textContent = `$${total}`;
-
         cartFooter.querySelector('#totalBuyInstallments').textContent = `O hasta 3 cuotas sin interés de $${Math.round(total / 3)}`;
 
         cartContainer.append(cartFooter);
+
+        buyCartContainer.className = 'row cart-footer-buy';
+        cartFooter.appendChild(buyCartContainer);
+
+        btnBuyTotal.id = ('btnBuyTotal');
+        btnBuyTotal.innerText = 'INICIAR COMPRA';
+        buyCartContainer.append(btnBuyTotal);
     });
 }
 
+btnBuyTotal.addEventListener('click', buyCart);
 
 btnCart.addEventListener('click', () => {
     cartContainer.style.display = 'flex';
+    cartContainer.classList.add('cart-container--active');
     updateCart();
 });
 
-let buyTotal = document.createElement('button');
-buyTotal.innerText = 'INICIAR COMPRA'
-buyTotal.id = "buyTotal";
-cartFooter.append(buyTotal);
-buyTotal.addEventListener('click', buyCart);
+
 
 const addStyle = {
     background: "green",
@@ -175,10 +178,10 @@ function showToast(message, style) {
 
 function buyCart() {
     showToast(`¡Gracias por tu compra!`, buyTotalStyle);
-  
+
     setTimeout(() => {
-      cart = [];
-      saveCart();
-      location.reload();
-    }, 3000);
-  }
+        cart = [];
+        saveCart();
+        location.reload();
+    }, 1000);
+}
